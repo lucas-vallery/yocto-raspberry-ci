@@ -18,9 +18,10 @@ jobs:
         - name: Initialize Repo
           run: |
             mkdir -p ~/sources
-            cd 
-            repo init -u https://github.com/lucas-vallery/raspberrypi-repo-manifest -m manifest.xml -b kirkstone > ~/sources
+            cd ~/sources
+            repo init -u https://github.com/lucas-vallery/raspberrypi-repo-manifest -m manifest.xml -b kirkstone
       
         - name: Sync Repo
           run: |
-            repo sync > ~/sources
+            cd ~/sources
+            repo sync
