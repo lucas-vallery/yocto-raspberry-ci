@@ -8,9 +8,19 @@ jobs:
         runs-on: ubuntu-22.04
     
         steps:
-        - name: Install Repo tool
+        - name: Install Google Repo tool
           run: |
-            mkdir -p ~/bin \
-            curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo \
-            chmod a+x ~/bin/repo \
-            export PATH=~/bin:$PATH \
+            mkdir -p ~/bin 
+            curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo 
+            chmod a+x ~/bin/repo 
+            export PATH=~/bin:$PATH 
+
+        - name: Initialize Repo
+          run: |
+            mkdir -p ~/sources
+            cd 
+            repo init -u https://github.com/lucas-vallery/raspberrypi-repo-manifest -m manifest.xml -b kirkstone > ~/sources
+      
+        - name: Sync Repo
+          run: |
+            repo sync > ~/sources
