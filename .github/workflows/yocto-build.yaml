@@ -45,8 +45,15 @@ jobs:
         - name: Move Yocto build script
           run: |
             mv build-script ~/build-script
+        
+        - name: Pull docker file
+          run: |
+            docker pull ghcr.io/lucas-vallery/yocto-build-container:latest    
 
         - name: Check home
           run: |
             cd ~/
             ls
+        - name: Check docker
+          run: |
+            docker list image
