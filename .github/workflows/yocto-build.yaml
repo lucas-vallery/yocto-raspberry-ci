@@ -28,15 +28,23 @@ jobs:
           with:
             repository: lucas-vallery/raspberrypi-zero-conf
             token: ${{ secrets.GITHUB_TOKEN }}
-            path: ~/
+            path: yocto-conf
 
-        - name: Checkout Yocto conf files
+        - name: Move Yocto conf files
+          run: |
+            mv yocto-conf ~/yocto-conf
+
+        - name: Checkout Yocto build script
           uses: actions/checkout@v4
           with:
             repository: lucas-vallery/raspberry-zero-yocto-build-script
             token: ${{ secrets.GITHUB_TOKEN }}
-            path: ~/
+            path: build-script
             ref: kirkstone
+
+        - name: Move Yocto build script
+          run: |
+            mv build-script ~/build-script
 
         - name: Check home
           run: |
