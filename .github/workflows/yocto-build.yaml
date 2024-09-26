@@ -37,3 +37,8 @@ jobs:
             token: ${{ secrets.GITHUB_TOKEN }}
             path: ~/
             ref: kirkstone
+
+        - name: Check home
+          run: |
+            cd ~/
+            ls
