@@ -45,7 +45,11 @@ jobs:
         - name: Move Yocto build script
           run: |
             mv build-script ~/build-script
-        
+
+        - name: Log in to GitHub Container Registry
+          run: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
         - name: Pull docker file
           run: |
             docker pull ghcr.io/lucas-vallery/yocto-build-container:latest    
