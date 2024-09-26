@@ -12,7 +12,7 @@ jobs:
           run: |
             sudo apt-get install repo -y 
 
-        - name: Initialize Repo
+        - name: Initialize Repo and checkout manifest
           run: |
             mkdir -p ~/sources
             cd ~/sources
@@ -22,3 +22,18 @@ jobs:
           run: |
             cd ~/sources
             repo sync
+
+        - name: Checkout Yocto conf files
+          uses: actions/checkout@v4
+          with:
+            repository: lucas-vallery/raspberrypi-zero-conf
+            token: ${{ secrets.GITHUB_TOKEN }}
+            path: ~/yocto-conf
+
+        - name: Checkout Yocto build script
+          uses: actions/checkout@v4
+          with:
+            repository: lucas-vallery/raspberry-zero-yocto-build-script
+            token: ${{ secrets.GITHUB_TOKEN }}
+            path: ~/build-script
+            ref: kirkstone
