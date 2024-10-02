@@ -60,4 +60,4 @@ jobs:
             ls
         - name: Check docker
           run: |
-            docker list image
+            docker image list
