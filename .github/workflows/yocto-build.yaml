@@ -8,56 +8,30 @@ jobs:
         runs-on: ubuntu-22.04
     
         steps:
+        - name: Build directory tree
+          run: |
+            mkdir -p ~/layers
+            mkdir -p ~/build
+
         - name: Install Google Repo tool
           run: |
             sudo apt-get install repo -y 
 
-        - name: Initialize Repo and checkout manifest
+        - name: ICheckout manifest and download layers
           run: |
-            mkdir -p ~/sources
-            cd ~/sources
+            cd ~/layers
             repo init -u https://github.com/lucas-vallery/raspberrypi-repo-manifest -m manifest.xml -b kirkstone
-      
-        - name: Sync Repo
-          run: |
-            cd ~/sources
             repo sync
 
-        - name: Checkout Yocto conf files
-          uses: actions/checkout@v4
-          with:
-            repository: lucas-vallery/raspberrypi-zero-conf
-            token: ${{ secrets.GITHUB_TOKEN }}
-            path: yocto-conf
-
-        - name: Move Yocto conf files
+        - name: Source env
           run: |
-            mv yocto-conf ~/yocto-conf
+            cd ~
+            source ~/layers/poky/oe-init-build-env ~/build
 
-        - name: Checkout Yocto build script
-          uses: actions/checkout@v4
-          with:
-            repository: lucas-vallery/raspberry-zero-yocto-build-script
-            token: ${{ secrets.GITHUB_TOKEN }}
-            path: build-script
-            ref: kirkstone
+        - name: Yocto build
+          run: |
+            bitbake core-image-base
 
-        - name: Move Yocto build script
-          run: |
-            mv build-script ~/build-script
 
-        - name: Log in to GitHub Container Registry
-          run: |
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-        - name: Pull docker file
-          run: |
-            docker pull ghcr.io/lucas-vallery/yocto-build-container:main 
-
-        - name: Check home
-          run: |
-            cd ~/
-            ls
-        - name: Check docker
-          run: |
-            docker image list
+        
