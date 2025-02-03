@@ -28,6 +28,16 @@ jobs:
             repo init -u https://github.com/lucas-vallery/raspberrypi-repo-manifest -m manifest.xml -b kirkstone
             repo sync
 
+        - name: Cache downloads and sstate
+          uses: actions/cache@v4
+          with:
+            path: |
+              ~/build/downloads
+              ~/build/sstate-cache
+            key: ${{ runner.os }}-downloads-sstate
+            restore-keys: |
+              ${{ runner.os }}-downloads-sstate
+
         - name: Yocto build
           run: |
             cd ~
