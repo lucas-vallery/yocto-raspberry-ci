@@ -17,20 +17,18 @@ jobs:
           run: |
             sudo apt-get install repo -y 
 
-        - name: ICheckout manifest and download layers
+        - name: Checkout manifest and download layers
           run: |
             cd ~/layers
             repo init -u https://github.com/lucas-vallery/raspberrypi-repo-manifest -m manifest.xml -b kirkstone
             repo sync
 
-        - name: Source env
+        - name: Yocto build
           run: |
             cd ~
             source ~/layers/poky/oe-init-build-env ~/build
-
-        - name: Yocto build
-          run: |
             bitbake core-image-base
+            
 
 
 
