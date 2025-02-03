@@ -13,6 +13,10 @@ jobs:
             mkdir -p ~/layers
             mkdir -p ~/build
 
+        - name: Setup build environment
+          run: |
+            apt install chrpath diffstat
+
         - name: Install Google Repo tool
           run: |
             sudo apt-get install repo -y 
