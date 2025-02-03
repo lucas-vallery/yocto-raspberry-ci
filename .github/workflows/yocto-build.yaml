@@ -15,7 +15,8 @@ jobs:
 
         - name: Setup build environment
           run: |
-            apt install chrpath diffstat
+            apt update
+            apt install chrpath diffstat -y
 
         - name: Install Google Repo tool
           run: |
